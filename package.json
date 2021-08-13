@@ -4,8 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "node dist/server.js",
     "tsc": "tsc",
     "dev": "env-cmd -f ./.env set debug=* && ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/server.ts",
+    "build": "tsc",
     "prod": "tsc && node ./build/app.js",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
