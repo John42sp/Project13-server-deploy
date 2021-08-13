@@ -1,8 +1,9 @@
 node_modules
-yarn_lock
+
 
 .env
 dist
 
+uploads/*
 !uploads/imgUpload/.gitkeep
 !uploads/vidUpload/.gitkeep
