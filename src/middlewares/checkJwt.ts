@@ -23,7 +23,6 @@ export default function checkJwt(req: Request, res: Response, next: NextFunction
   if(!authorization) {
     return res.sendStatus(401)
   }
-
   const token = authorization.replace("Bearer", "").trim(); //apenas remover a palavra "Bearer" e espaço
 
   try {
