@@ -1,3 +1,4 @@
+
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import config from "../config/config";
@@ -26,7 +27,7 @@ export default function checkJwt(req: Request, res: Response, next: NextFunction
   const token = authorization.replace("Bearer", "").trim(); //apenas remover a palavra "Bearer" e espaço
 
   try {
-    const data = jwt.verify(token, config.jwtSecret)
+    const data = jwt.verify(token, process.env.NODE_ENV) as unknown;
     // const data = jwt.verify(token, process.env.NODE_ENV) //junta token auth com menssagem secreta no .env
 
     console.log(data) // -> data traz no log o id, iat, exp, então tenho que tipar o data com interface
@@ -42,29 +43,29 @@ export default function checkJwt(req: Request, res: Response, next: NextFunction
   next();
 }
 
-// export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
-//   //Get the jwt token from the head
-//   const token = <string>req.headers["auth"];
-//   let jwtPayload;
+// // export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
+// //   //Get the jwt token from the head
+// //   const token = <string>req.headers["auth"];
+// //   let jwtPayload;
   
-//   //Try to validate the token and get data
-//   try {
-//     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
-//     res.locals.jwtPayload = jwtPayload;
-//   } catch (error) {
-//     //If token is not valid, respond with 401 (unauthorized)
-//     res.status(401).send();
-//     return;
-//   }
+// //   //Try to validate the token and get data
+// //   try {
+// //     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
+// //     res.locals.jwtPayload = jwtPayload;
+// //   } catch (error) {
+// //     //If token is not valid, respond with 401 (unauthorized)
+// //     res.status(401).send();
+// //     return;
+// //   }
 
-//   //The token is valid for 1 hour
-//   //We want to send a new token on every request
-//   const { id } = jwtPayload;
-//   const newToken = jwt.sign({ id }, config.jwtSecret, {
-//     expiresIn: "1h"
-//   });
-//   res.setHeader("token", newToken);
+// //   //The token is valid for 1 hour
+// //   //We want to send a new token on every request
+// //   const { id } = jwtPayload;
+// //   const newToken = jwt.sign({ id }, config.jwtSecret, {
+// //     expiresIn: "1h"
+// //   });
+// //   res.setHeader("token", newToken);
 
-//   //Call the next middleware or controller
-//   next();
-// };
+// //   //Call the next middleware or controller
+// //   next();
+// // };

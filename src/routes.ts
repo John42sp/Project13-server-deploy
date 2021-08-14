@@ -65,7 +65,7 @@ routes.get('/orphanages/:id', checkJwt, OrphanagesController.show);
 routes.delete('/orphanages/:id', checkJwt, OrphanagesController.delete);
 
 //exclusive routes for admin & supervisor:
-routes.get('/tokens', [checkJwt, checkRoleSuper(['admin'])], TokenController.index);
+routes.get('/tokens', [checkJwt, checkRoleAdmin(['admin'])], TokenController.index);
 
 
 export default routes;

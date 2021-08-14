@@ -65,8 +65,8 @@ export default {
           // Sing JWT, valid for 1 hour
           const token = jwt.sign(
           { id: user.id, email: user.email }, 
-          // process.env.NODE_ENV,    
-          config.jwtSecret,      
+          process.env.NODE_ENV,    
+          // config.jwtSecret,      
           { expiresIn: "1d" }
           );
           res.json({
