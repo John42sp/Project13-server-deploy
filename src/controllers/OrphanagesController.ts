@@ -30,10 +30,9 @@ export default {
     },
 
     async create(req: Request, res: Response){
-      const { id: user_id, name: user_name  } = req.headers;      
+      const { user_id, user_name  } = req.headers;      
    
       // const user_id = id;   
-      // const user_name = name;   
 
         const { 
             name,
@@ -92,8 +91,8 @@ export default {
               videos: Yup.array(Yup.object().shape({
                 path: Yup.string().required()
             })),
-              user_name: Yup.string().required(),
-              user_id: Yup.number().required()
+              // user_name: Yup.string().required(),
+              // user_id: Yup.number().required()
           })
 
           await schema.validate(data, {
