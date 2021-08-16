@@ -30,9 +30,9 @@ export default {
     },
 
     async create(req: Request, res: Response){
-      // const { user_id, user_name  } = req.headers;    
-      const { id } = req.headers;    
-        const user_id = id;      
+      const { user_id, user_name  } = req.headers;      
+   
+      // const user_id = id;   
 
         const { 
             name,
@@ -42,7 +42,6 @@ export default {
             instructions,
             opening_hours,
             open_on_weekends,
-            user_name
            } = req.body
           
           const orphanageRepository = getRepository(Orphanage);
