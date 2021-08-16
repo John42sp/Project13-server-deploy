@@ -48,21 +48,20 @@ export default {
           const orphanageRepository = getRepository(Orphanage);
    
   
-        const requestImages = req.files  as Express.Multer.File[];   
-        const requestVideos = req.files as Express.Multer.File[];   
+        const { images, videos } = req.files  as any;   
 
            
-        const images = requestImages.map(image => ({ path: image.filename }));
-        const videos = requestVideos.map(video => ({ path: video.filename }));
+        // const images = requestImages.map(image => ({ path: image.filename }));
+        // const videos = requestVideos.map(video => ({ path: video.filename }));
 
 
-          // const imagesArr =  images.map((image:Express.Multer.File) => {
-          //     return { path: image.filename}
-          // });
+          const imagesArr =  images.map((image:Express.Multer.File) => {
+              return { path: image.filename}
+          });
 
-        //   const videosArr = videos.map((video:Express.Multer.File) => {
-        //     return { path: video.filename}
-        // })
+          const videosArr = videos.map((video:Express.Multer.File) => {
+            return { path: video.filename}
+        })
 
         
           const data = {       
