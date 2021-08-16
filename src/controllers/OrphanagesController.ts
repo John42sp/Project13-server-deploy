@@ -30,8 +30,10 @@ export default {
     },
 
     async create(req: Request, res: Response){
-      const { id } = req.headers;    
-      const user_id = id;   
+      const { id: user_id, name: user_name  } = req.headers;      
+   
+      // const user_id = id;   
+      // const user_name = name;   
 
         const { 
             name,
@@ -41,13 +43,12 @@ export default {
             instructions,
             opening_hours,
             open_on_weekends,
-            user_name,
            } = req.body
           
           const orphanageRepository = getRepository(Orphanage);
    
   
-        const { images, videos }   = req.files as any;    
+        const { images, videos }   =  req.files as { [fieldname: string]: Express.Multer.File[] };   
         // const videos   = req.files as Express.Multer.File[];   
 
            
@@ -60,8 +61,7 @@ export default {
             return { path: video.filename}
         })
 
-        // console.log(imagesArr)
-        // console.log(videosArr)
+        
           const data = {       
             name,
             latitude,
@@ -93,7 +93,7 @@ export default {
                 path: Yup.string().required()
             })),
               user_name: Yup.string().required(),
-              // user_id: Yup.number().required()
+              user_id: Yup.number().required()
           })
 
           await schema.validate(data, {
