@@ -30,7 +30,7 @@ export default {
     },
 
     async create(req: Request, res: Response){
-      const { id } = req.headers;      
+      const { user_id, user_name } = req.headers;      
    
       // const user_id = id;   
 
@@ -42,7 +42,6 @@ export default {
             instructions,
             opening_hours,
             open_on_weekends,
-            user_name
            } = req.body
           
           const orphanageRepository = getRepository(Orphanage);
@@ -72,10 +71,10 @@ export default {
             instructions,
             opening_hours,
             open_on_weekends: open_on_weekends === "true",
-            images,
-            videos,
+            imagesArr,
+            videosArr,
             user_name,
-            user_id: id, 
+            user_id, 
           } as {};
           console.log(data)
         
