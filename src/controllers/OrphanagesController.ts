@@ -54,11 +54,11 @@ export default {
         // const videos = requestVideos.map(video => ({ path: video.filename }));
 
 
-          const imagesArr =  images.map((image:Express.Multer.File) => {
+          const imagesArr =  images.map((image:any) => {
               return { path: image.filename}
           });
 
-          const videosArr = videos.map((video:Express.Multer.File) => {
+          const videosArr = videos.map((video:any) => {
             return { path: video.filename}
         })
 
@@ -71,8 +71,8 @@ export default {
             instructions,
             opening_hours,
             open_on_weekends: open_on_weekends === "true",
-            imagesArr,
-            videosArr,
+            images: imagesArr,
+            videos: videosArr,
             user_name,
             user_id, 
           } as {};
