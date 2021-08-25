@@ -25,45 +25,17 @@ export default function checkJwt(req: Request, res: Response, next: NextFunction
   const token = authorization.replace("Bearer", "").trim(); 
 
   try {
-    // const data = jwt.verify(token, process.env.NODE_ENV) as unknown;
-    const data = jwt.verify(token, config.jwtSecret) as unknown; //junta token auth com menssagem secreta no .env
+    const data = jwt.verify(token, process.env.NODE_ENV) as unknown;
+   
 
     // console.log(data) // -> data = id, iat, exp, so needs to type data with interface
     const { id } = data as TokenPayload; 
     
-    //salvar info da request no Express -> ver arquivo express.d.ts, fazer tipo customizado
-    //preciso dizer pro express(req:Request) que o userId se trata de um numero, ver file express.d.ts declaration
+    //save request info on Express -> see file express.d.ts, customized type declaration
+    //telling express(req:Request) that userId is a  numero
     req.user_id  = id;  
-    // console.log(id)
   } catch {
     return res.sendStatus(401);
   }
   next();
 }
-
-// // export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
-// //   //Get the jwt token from the head
-// //   const token = <string>req.headers["auth"];
-// //   let jwtPayload;
-  
-// //   //Try to validate the token and get data
-// //   try {
-// //     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
-// //     res.locals.jwtPayload = jwtPayload;
-// //   } catch (error) {
-// //     //If token is not valid, respond with 401 (unauthorized)
-// //     res.status(401).send();
-// //     return;
-// //   }
-
-// //   //The token is valid for 1 hour
-// //   //We want to send a new token on every request
-// //   const { id } = jwtPayload;
-// //   const newToken = jwt.sign({ id }, config.jwtSecret, {
-// //     expiresIn: "1h"
-// //   });
-// //   res.setHeader("token", newToken);
-
-// //   //Call the next middleware or controller
-// //   next();
-// // };
