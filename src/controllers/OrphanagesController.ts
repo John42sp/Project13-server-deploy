@@ -4,7 +4,7 @@ import { getRepository } from 'typeorm';
 import Orphanage from '../models/Orphanage';
 import orphanageView from '../views/orphanages_view';
 import * as Yup from 'yup';
-
+import User from '../models/User';
 
 
 export default {
@@ -12,9 +12,8 @@ export default {
         const orphanagesRepository = getRepository(Orphanage);
 
         const orphanages = await orphanagesRepository.find({
-            relations: ['images', 'user', 'videos'] //relations: indicadas no model, logo abaixo do @Joincolumn
+            relations: ['images', 'user', 'videos'] 
         });
-        // console.log(orphanageView.renderMany(orphanages))
         return res.json(orphanageView.renderMany(orphanages));
     },
 
@@ -25,14 +24,11 @@ export default {
         const orphanage = await orphanagesRepository.findOneOrFail(id, {
             relations: ['images', 'user', 'videos']
         });
-        // console.log(orphanage)
         return res.json(orphanageView.render(orphanage));
     },
 
     async create(req: Request, res: Response){
       const { user_id, user_name } = req.headers;      
-   
-      // const user_id = id;   
 
         const { 
             name,
@@ -47,18 +43,18 @@ export default {
           const orphanageRepository = getRepository(Orphanage);
    
   
-        const { images, videos } = req.files  as any;   
+        const { images, videos } = req.files as { [fieldname: string]: Express.Multer.File[] }; 
 
            
         // const images = requestImages.map(image => ({ path: image.filename }));
         // const videos = requestVideos.map(video => ({ path: video.filename }));
 
 
-          const imagesArr =  images.map((image:any) => {
+          const imagesArr =  images.map((image:Express.Multer.File) => {
               return { path: image.filename}
           });
 
-          const videosArr = videos.map((video:any) => {
+          const videosArr = videos.map((video:Express.Multer.File) => {
             return { path: video.filename}
         })
 
@@ -76,11 +72,10 @@ export default {
             user_name,
             user_id, 
           } as {};
-          console.log(data)
         
 
           const schema = Yup.object().shape({
-              name: Yup.string().required('Nome obrigatório.').min(4, 'Name must be at lease 4 digits.').max(25, 'Name no more than 25 digits please.'),
+              name: Yup.string().required().min(4).max(25),
               latitude: Yup.number().required(),
               longitude: Yup.number().required(),
               about: Yup.string().required().max(300),
@@ -93,19 +88,18 @@ export default {
               videos: Yup.array(Yup.object().shape({
                 path: Yup.string().required()
             })),
-              // user_name: Yup.string().required(),
-              // user_id: Yup.number().required()
+              
           })
 
           await schema.validate(data, {
               abortEarly: false
           });
-        //   console.log(data)
           const orphanage = orphanageRepository.create(data)
-        //   console.log(orphanage)
-          await orphanageRepository.save(orphanage); //salvando no banco
+          await orphanageRepository.save(orphanage); 
           
-            return res.status(201).json(orphanage); //enviando pro frontend
+            // return res.status(201).json(orphanage); 
+            return res.status(201).send(`Orphanage ${orphanage.name} created successfully.`); 
+
     },
 
     async delete(req: Request, res: Response) {
@@ -113,16 +107,23 @@ export default {
                   const id = req.params.id;
 
                   const orphanageRepository = getRepository(Orphanage);
+                  console.log(orphanageRepository)
+
+                //   const userOwner = await userRepository.findOne({where: { user_id }});
                   let orphanage;
                   try {
-                      orphanage = await orphanageRepository.findOneOrFail(id);            
+               
+                      orphanage = await orphanageRepository.findOneOrFail(id);   
+                      console.log(orphanage)
+
+                      orphanageRepository.delete(orphanage);        
+          
+                      res.status(200).send(`Orphanage ${orphanage} deleted successfuly`);       
+
                   } catch (error) {
                       res.status(404).send("Orphanage not found");
                       return;
                   }
-                  orphanageRepository.delete(orphanage);        
-          
-                  //After all send a 204 (no content, but accepted) response
-                  res.status(200).send('Orphanage deleted successfuly');
+                 
     }
 }

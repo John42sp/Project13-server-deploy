@@ -37,12 +37,12 @@ routes.get('/users/confirmation/:email/:token', UserController.confirmEmail);
 routes.post('/users/resendtoken', UserController.resendToken);
 
 //forgot password
-routes.post('/users/forgotpass', UserController.forgotpass);
+routes.post('/users/forgotpass',  UserController.forgotpass);
 
 
 //change password route
-// routes.post('/users/changepass', checkJwt, UserController.changepass);
-routes.post('/users/changepass', UserController.changepass);
+routes.post('/users/changepass', checkJwt, UserController.changepass);
+// routes.post('/users/changepass', UserController.changepass);
 
 //login route
 routes.post('/users/login', UserController.login);
@@ -58,7 +58,7 @@ routes.delete('/users/:id', [checkJwt, checkRoleSuper(['supervisor'])], UserCont
 routes.delete('/users/:id', checkJwt, UserController.delete);
 
 //create orphanage
-routes.post('/orphanages/create', uploadsStorageFilterFields, OrphanagesController.create);
+routes.post('/orphanages/create', checkJwt, uploadsStorageFilterFields, OrphanagesController.create);
 routes.get('/orphanages', checkJwt, OrphanagesController.index);
 routes.get('/orphanages/:id', checkJwt, OrphanagesController.show);
 // routes.post('/orphanages/create', upload.array('images'), OrphanagesController.create);

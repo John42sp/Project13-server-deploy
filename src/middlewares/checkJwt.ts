@@ -16,20 +16,19 @@ declare var process : {
 }
 
 export default function checkJwt(req: Request, res: Response, next: NextFunction) {
-  //authorization = token gerado do login, não é o token do registro do usuário
   const { authorization } = req.headers;
-  console.log(authorization)
+  // console.log(authorization)
 
   if(!authorization) {
     return res.sendStatus(401)
   }
-  const token = authorization.replace("Bearer", "").trim(); //apenas remover a palavra "Bearer" e espaço
+  const token = authorization.replace("Bearer", "").trim(); 
 
   try {
-    const data = jwt.verify(token, process.env.NODE_ENV) as unknown;
-    // const data = jwt.verify(token, process.env.NODE_ENV) //junta token auth com menssagem secreta no .env
+    // const data = jwt.verify(token, process.env.NODE_ENV) as unknown;
+    const data = jwt.verify(token, config.jwtSecret) as unknown; //junta token auth com menssagem secreta no .env
 
-    console.log(data) // -> data traz no log o id, iat, exp, então tenho que tipar o data com interface
+    // console.log(data) // -> data = id, iat, exp, so needs to type data with interface
     const { id } = data as TokenPayload; 
     
     //salvar info da request no Express -> ver arquivo express.d.ts, fazer tipo customizado
