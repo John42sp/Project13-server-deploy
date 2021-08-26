@@ -1,7 +1,7 @@
 
 
 <h1 align="center">
-  <img alt="Project13-fullstack-myorphanage" title="Project13-myorphanage" src=".github/logo.png" />
+  Project13-myorphanage
 </h1>
 
 Server-web-mobile
