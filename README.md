@@ -35,11 +35,13 @@ API REST - WEB FULLSTACK
 
 ## ✨ Tecnologies
 
+<p>Backend: Typeorm, Typescrip, Node.js, Express, Nodemailer/mailtrap, JWT Authentication, Multer, Yup validation,  etc</p>
+<p>Database: Postgres</p>
+<p>Frontend: React.js, Leaflet Maps </p>
+<p>Mobile: React Native, Expo</p>
 
-Backend: Typeorm, Typescrip, Node.js, Express, Nodemailer/mailtrap, JWT Authentication, Multer, Yup validation,  etc
-Database: Postgres
-Frontend: React.js, Leaflet Maps 
-Mobile: React Native, Expo
+<br>
+
 - [React](https://reactjs.org)
 - [TypeScript](https://www.typescriptlang.org/)
 
